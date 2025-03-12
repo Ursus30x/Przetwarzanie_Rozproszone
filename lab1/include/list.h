@@ -1,0 +1,74 @@
+#ifndef LIST_H
+#define LIST_H
+
+#include <stddef.h>
+
+// Node used for List
+typedef struct Node Node;
+struct Node{
+    Node* nextNode;
+    Node* prevNode;
+    int data;
+};
+
+// Double Linked List 
+typedef struct List List;
+
+struct List{
+    Node* frontNode;
+    Node* endNode;
+    size_t size;
+};
+
+// Prepares list data structure to be used 
+// or allocates its memory if its a NULL pointer.
+//
+// Returns initialized list or NULL if it couldnt allocate memory.
+List* initialize_list(List* list);
+
+// Creates new instance of List, allocates new memory
+//
+// Returns allocted and initalized instance of List
+List* create_list();
+
+// Pushes new node at the back of the list (after endNode).
+//
+// Returns a inserted node or NULL if it couldnt allocate memory.
+Node* push_back(List *list,int data);
+// Pops node at the back of the list (pops endNode).
+void pop_back(List *list);
+
+// Pushes new node at the front of the list (before startNode)
+//
+// Returns a inserted node or NULL if it couldnt allocate memory.
+Node* push_front(List *list, int data);
+//Pops node at the front of the list (pops startNode)
+void pop_front(List *list);
+
+// Inserts new node before argument node
+//
+// Returns a inserted node or NULL if it couldnt allocate memory.
+Node* insert_before(List *list, Node *node, int data);
+// Inserts new node after argument node
+//
+// Returns a inserted node or NULL if it couldnt allocate memory.
+Node* insert_after(List *list, Node *node, int data);
+
+// Deletes given node
+void delete_node(List *list, Node *node);
+
+// Frees list nodes 
+//
+// To also free list use free_list()
+void free_list_nodes(List *list);
+
+// Frees list given as a argument,
+// frees both Nodes and List itself
+//
+// To only free nodes use free_list_nodes()
+void free_list(List *list);
+
+
+
+#endif
+

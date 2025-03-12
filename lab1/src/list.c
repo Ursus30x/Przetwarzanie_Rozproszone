@@ -1,0 +1,193 @@
+
+#include "../include/list.h"
+#include <stddef.h>
+#include <malloc.h>
+
+// Handles first insertion in to the list
+static void firstInsert(List *list,Node* node){
+    list->endNode   = node;
+    list->frontNode = node;
+    list->size++;
+}
+
+// Initializes node with given arguments
+//
+// DOEST NOT ALLOCATE NEW NODE IN MEMORY
+static Node* initNode(Node* node, Node* nextNode, Node* prevNode, int data){
+    node->nextNode  = nextNode;
+    node->prevNode  = prevNode;
+    node->data      = data;
+
+    return node;
+}
+
+List* initialize_list(List* list){
+    list->endNode   = NULL;
+    list->frontNode = NULL;
+    list->size      = 0;
+
+    return list;
+}
+
+List* create_list(){
+    List* list;
+    list = malloc(sizeof(List));
+
+    if(list == NULL)return NULL;
+  
+    
+
+    return initialize_list(list);
+}
+
+
+Node* push_back(List *list,int data){
+    //Setup of new node
+    Node* newNode =  malloc(sizeof(Node));
+
+    if(newNode == NULL)return NULL; // Checks if malloc return a valid pointer
+
+    initNode(newNode, NULL, list->endNode, data);
+
+    // Check if we are inserting in to empty list
+    if(list->size == 0){
+        firstInsert(list,newNode);
+        return newNode;
+    }
+
+    // Insert new node at the end
+    list->endNode->nextNode = newNode;
+    list->endNode           = newNode;
+    list->size++;
+
+    return newNode;
+}
+
+void pop_back(List *list){
+    Node* poppedNode = list->endNode;
+
+
+    if (list->size == 1) {
+        list->endNode = list->frontNode = NULL;
+    } else {
+        list->endNode = list->endNode->prevNode;
+        list->endNode->nextNode = NULL;
+    }
+    list->size--;
+
+    free(poppedNode);
+}
+
+Node* push_front(List *list, int data){
+    //Setup of new node
+    Node* newNode =  malloc(sizeof(Node));
+
+    if(newNode == NULL)return NULL; // Checks if malloc return a valid pointer
+
+    initNode(newNode, list->frontNode, NULL, data);
+
+
+    // Check if we are inserting in to empty list
+    if(list->size == 0){
+        firstInsert(list,newNode);
+        return newNode;
+    }
+
+    // Insert new node at the end
+    list->frontNode->prevNode = newNode;
+    list->frontNode           = newNode;
+    list->size++;
+
+    return newNode;
+}
+
+void pop_front(List *list){
+    Node* poppedNode = list->frontNode;
+
+    
+    if (list->size == 1) {
+        list->frontNode = list->endNode = NULL;
+    } else {
+        list->frontNode = list->frontNode->nextNode;
+        list->frontNode->prevNode = NULL;
+    }
+    list->size--;
+
+
+    free(poppedNode);
+}
+
+Node* insert_before(List *list, Node *targetNode, int data){
+    Node *newNode = malloc(sizeof(Node));
+
+    if(newNode == NULL)return NULL;
+
+    //Pointing intial previous target node to new node
+    if(targetNode->prevNode == NULL)list->frontNode = newNode;
+    else targetNode->prevNode->nextNode = newNode;
+
+    //Initializing new node
+    initNode(newNode, targetNode, targetNode->prevNode, data);
+
+    //Pointing target node to new node
+    targetNode->prevNode = newNode;
+
+    list->size++;
+
+    return newNode;
+}
+
+Node* insert_after(List *list, Node *targetNode, int data){
+    Node *newNode = malloc(sizeof(Node));
+
+    if(newNode == NULL)return NULL;
+
+    //Pointing intial previous target node to new node
+    if(targetNode->nextNode == NULL) list->endNode = newNode;
+    else targetNode->nextNode->prevNode = newNode;
+    
+
+    //Initializing new node
+    initNode(newNode, targetNode->nextNode, targetNode, data);
+
+    //Pointing target node to new node
+    targetNode->nextNode = newNode;
+
+    list->size++;
+
+    return newNode;
+}
+
+void delete_node(List *list, Node *node){
+    Node    *nextNode = node->nextNode,
+            *prevNode = node->prevNode;
+
+    if (prevNode) prevNode->nextNode = nextNode;
+    else list->frontNode = nextNode;
+        
+    if (nextNode) nextNode->prevNode = prevNode;
+    else list->endNode = prevNode;
+
+    list->size--;
+
+    free(node);
+}
+
+// Frees list nodes 
+//
+// To also free list use free_list()
+void free_list_nodes(List *list){
+    Node    *currentNode    = list->frontNode,
+            *tempNode       = NULL;
+
+    while(currentNode != NULL){
+        tempNode = currentNode->nextNode;
+        free(currentNode);
+        currentNode = tempNode;
+    }
+}
+
+void free_list(List *list){
+    free_list_nodes(list);
+    free(list);
+}
