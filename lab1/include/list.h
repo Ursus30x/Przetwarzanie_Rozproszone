@@ -79,7 +79,6 @@ void delete_at(List *list, size_t index);
 
 /* ACCESS FUNCTIONS */
 
-
 // Returns a node at given index
 Node* get_node_at(List *list, size_t index);
 
@@ -90,6 +89,17 @@ size_t get_index_of(List *list, Node* node);
 // Returns NULL if not found.
 Node* find_node(List* list, int data);
 
+/* cos FUCTIONS */
+
+// Merges List src to List dest.
+void merge(List* dest, List* src);
+
+// Splits list at given index and creates new list.
+// Creates a new list instance.
+//
+// Returns new list instance or NULL if it couldnt allocate memory.
+List* split_at(List* list, size_t index);
+
 /* STATUS FUCTIONS */
 
 // Returns true if size is equal to 0, otherwise returns false.
@@ -98,8 +108,7 @@ bool empty(List *list);
 // Returns amount of nodes that list holds.
 size_t size(List *list);
 
-/* CLEANUP FUCTIONS */
-
+/* DEALLOCATION FUCTIONS */
 
 // Frees list nodes.
 //
