@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#define LIST_INDEX_NOT_FOUND ((size_t)-1)
+
 // Node used for List
 typedef struct Node Node;
 struct Node{
@@ -20,7 +22,7 @@ struct List{
     size_t size;
 };
 
-/* INITALIZATION FUNCTIONS */
+/* INITIALIZATION FUNCTIONS */
 
 // Prepares list data structure to be used 
 // or allocates its memory if its a NULL pointer.
@@ -30,7 +32,7 @@ List* initialize_list(List* list);
 
 // Creates new instance of List, allocates new memory
 //
-// Returns allocted and initalized instance of List
+// Returns allocated and initialized instance of List
 List* create_list();
 
 /* INSERTION FUNCTIONS */
@@ -87,12 +89,13 @@ size_t get_index_of(List *list, Node* node);
 // Returns NULL if not found.
 Node* find_node(List* list, int data);
 
-/* MERGE AND SPLIT FUCTIONS */
+/* MERGE AND SPLIT FUNCTIONS */
 
-// Merges List rhs to List lhs.
-// !!!Frees rhs list!!!.
+// Merges List rhs to List lhs. 
+// If rhs is empty, lhs remains unchanged.
+// WARNING Frees rhs list regardless of its state.
 //
-// Returns a merged list pointer
+// Returns a pointer to the merged lhs list.
 List* merge(List* lhs, List* rhs);
 
 // Splits list at given index and creates new list.
@@ -101,12 +104,12 @@ List* merge(List* lhs, List* rhs);
 // Returns new list instance or NULL if it couldnt allocate memory.
 List* split_at(List* list, size_t index);
 
-/* STATUS FUCTIONS */
+/* STATUS FUNCTIONS */
 
 // Returns true if size is equal to 0, otherwise returns false.
-bool empty(List *list);
+bool is_empty(List *list);
 
-/* DEALLOCATION FUCTIONS */
+/* DEALLOCATION FUNCTIONS */
 
 // Frees list nodes.
 //

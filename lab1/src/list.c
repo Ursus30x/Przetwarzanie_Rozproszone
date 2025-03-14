@@ -33,7 +33,7 @@ List* create_list(){
     List* list;
     list = malloc(sizeof(List));
 
-    if(list == NULL)return NULL;
+    if(list == NULL) return NULL;
   
     
 
@@ -205,7 +205,7 @@ size_t get_index_of(List *list, Node *node){
         i++;
     }
 
-    return -1;
+    return LIST_INDEX_NOT_FOUND;
 }
 
 Node* find_node(List *list,int data){
@@ -254,7 +254,7 @@ List *split_at(List *list, size_t index){
     return newList;
 }
 
-bool empty(List *list){
+bool is_empty(List *list){
     return (list->size == 0);
 }
 

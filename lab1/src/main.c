@@ -117,7 +117,7 @@ int main(){
     printListTest(listSplit,"2 List after split:");
 
     // Empty test
-    printf("is the 1 List empty?: %d\n\n", empty(list));
+    printf("is the 1 List empty?: %d\n\n", is_empty(list));
 
     // Freeing list
     free_list(list);
