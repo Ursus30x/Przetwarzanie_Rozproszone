@@ -14,14 +14,11 @@ struct Node{
 
 // Double Linked List 
 typedef struct List List;
-
 struct List{
     Node* frontNode;
     Node* endNode;
     size_t size;
 };
-
-
 
 /* INITALIZATION FUNCTIONS */
 
@@ -82,16 +79,18 @@ void delete_at(List *list, size_t index);
 // Returns a node at given index
 Node* get_node_at(List *list, size_t index);
 
-// Returns a index of a given node
+// Returns a index of a given node.
+// If it couldnt find it, returns MAX_SIZE of size_t.
 size_t get_index_of(List *list, Node* node);
 
 // Finds and returns the first node containing the given data.
 // Returns NULL if not found.
 Node* find_node(List* list, int data);
 
-/* cos FUCTIONS */
+/* MERGE AND SPLIT FUCTIONS */
 
 // Merges List src to List dest.
+// Frees src list.
 void merge(List* dest, List* src);
 
 // Splits list at given index and creates new list.
@@ -105,9 +104,6 @@ List* split_at(List* list, size_t index);
 // Returns true if size is equal to 0, otherwise returns false.
 bool empty(List *list);
 
-// Returns amount of nodes that list holds.
-size_t size(List *list);
-
 /* DEALLOCATION FUCTIONS */
 
 // Frees list nodes.
@@ -120,8 +116,6 @@ void free_list_nodes(List *list);
 //
 // To only free nodes use free_list_nodes().
 void free_list(List *list);
-
-
 
 #endif
 

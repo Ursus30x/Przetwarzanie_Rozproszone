@@ -40,7 +40,6 @@ List* create_list(){
     return initialize_list(list);
 }
 
-
 Node* push_back(List *list,int data){
     //Setup of new node
     Node* newNode =  malloc(sizeof(Node));
@@ -61,21 +60,6 @@ Node* push_back(List *list,int data){
     list->size++;
 
     return newNode;
-}
-
-void pop_back(List *list){
-    Node* poppedNode = list->endNode;
-
-
-    if (list->size == 1) {
-        list->endNode = list->frontNode = NULL;
-    } else {
-        list->endNode = list->endNode->prevNode;
-        list->endNode->nextNode = NULL;
-    }
-    list->size--;
-
-    free(poppedNode);
 }
 
 Node* push_front(List *list, int data){
@@ -99,22 +83,6 @@ Node* push_front(List *list, int data){
     list->size++;
 
     return newNode;
-}
-
-void pop_front(List *list){
-    Node* poppedNode = list->frontNode;
-
-    
-    if (list->size == 1) {
-        list->frontNode = list->endNode = NULL;
-    } else {
-        list->frontNode = list->frontNode->nextNode;
-        list->frontNode->prevNode = NULL;
-    }
-    list->size--;
-
-
-    free(poppedNode);
 }
 
 Node* insert_before(List *list, Node *targetNode, int data){
@@ -158,6 +126,45 @@ Node* insert_after(List *list, Node *targetNode, int data){
     return newNode;
 }
 
+Node* insert_at(List* list, size_t index, int data){
+    Node* targetNode = get_node_at(list, index);
+
+    if(targetNode == NULL) return NULL;
+
+    return insert_after(list,targetNode,data);
+}
+
+void pop_back(List *list){
+    Node* poppedNode = list->endNode;
+
+
+    if (list->size == 1) {
+        list->endNode = list->frontNode = NULL;
+    } else {
+        list->endNode = list->endNode->prevNode;
+        list->endNode->nextNode = NULL;
+    }
+    list->size--;
+
+    free(poppedNode);
+}
+
+void pop_front(List *list){
+    Node* poppedNode = list->frontNode;
+
+    
+    if (list->size == 1) {
+        list->frontNode = list->endNode = NULL;
+    } else {
+        list->frontNode = list->frontNode->nextNode;
+        list->frontNode->prevNode = NULL;
+    }
+    list->size--;
+
+
+    free(poppedNode);
+}
+
 void delete_node(List *list, Node *node){
     Node    *nextNode = node->nextNode,
             *prevNode = node->prevNode;
@@ -173,9 +180,91 @@ void delete_node(List *list, Node *node){
     free(node);
 }
 
-// Frees list nodes 
-//
-// To also free list use free_list()
+void delete_at(List *list, size_t index){
+    Node* targetNode = get_node_at(list, index);
+
+    if(targetNode == NULL) return;
+
+    delete_node(list, targetNode);
+}
+
+Node* get_node_at(List *list, size_t index){
+    Node* targetNode = list->frontNode;
+    size_t i = 0;
+
+    while(targetNode != NULL && i != index){
+        targetNode = targetNode->nextNode;
+        i++;
+    }
+
+    return targetNode;
+
+}
+
+size_t get_index_of(List *list, Node *node){
+    Node* iterNode = list->frontNode;
+    size_t i = 0;
+
+    while(iterNode != NULL){
+        if(iterNode == node)return i;
+        i++;
+    }
+
+    return -1;
+}
+
+Node* find_node(List *list,int data){
+    Node* iterNode = list->frontNode;
+
+    while(iterNode != NULL){
+        if(iterNode->data == data) return iterNode;
+    }
+
+    return NULL;
+}
+
+void merge(List *dest, List *src){
+    dest->size += src->size;
+
+    dest->endNode->nextNode = src->frontNode;
+    src->frontNode->prevNode = dest->endNode;
+    dest->endNode = src->endNode;
+
+    free_list(src);
+}
+
+List *split_at(List *list, size_t index){
+    List *newList = create_list();
+    Node *iterNode = list->frontNode;
+    size_t rightListSize = list->size - index;
+    size_t i = 0;
+    
+    while(iterNode != NULL && i != index){
+        iterNode = iterNode->nextNode;
+        i++;
+    }
+
+    if(iterNode == NULL)return newList;
+
+    newList->endNode = list->endNode;
+
+    list->endNode = iterNode->prevNode;
+    list->endNode->nextNode = NULL;
+
+    newList->frontNode = iterNode;
+    newList->frontNode->prevNode = NULL;
+
+    newList->size = rightListSize;
+
+    return newList;
+}
+
+bool empty(List *list){
+    return (list->size == 0);
+}
+
+
+
 void free_list_nodes(List *list){
     Node    *currentNode    = list->frontNode,
             *tempNode       = NULL;
