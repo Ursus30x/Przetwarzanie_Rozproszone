@@ -17,8 +17,6 @@ void printListTest(List* list, const char* testTitle){
 int main(){
     printf  ("****************************\n*     List testing stuff   *\n****************************\n\n\n");
 
-
-
     List* list = create_list();
 
     //Push back testing
@@ -57,6 +55,12 @@ int main(){
     printListTest(list,"Insertion in between ends test:");
 
 
+    //Insertion at index
+    insert_at(list, 3, 20);
+    insert_at(list, 4, 21);
+
+    printListTest(list,"Insertion at index test:");
+
     //Popping back and from testing
     pop_back(list);
     pop_front(list);
@@ -76,5 +80,46 @@ int main(){
 
     printListTest(list,"Deleting nodes test:");
 
+    // Deleting at index 
+    delete_at(list, 1);
+
+    printListTest(list,"Deleting nodes at index test:");
+
+
+    // Getting nodes at index
+    Node* testNode = get_node_at(list,0);
+    printf("Getting node at index:\nget_node_at(list,0).data = %d\n\n", testNode->data);
+
+    // Getting index of node
+    size_t testIndex = get_index_of(list, testNode);
+    printf("Getting index of the node:\nget_index_of(list,testNode) = %ld\n\n", testIndex);
+
+    // Finding node with given data
+    printf("Finding a node with given data:\nget_index_of(list,find_node(list,0)) = %ld\n\n", get_index_of(list,find_node(list,0)));
+    
+    // Merge test
+    List *listMerge = create_list();
+    for(int i = 0;i<5;i++){
+        push_back(listMerge,i);
+    }
+
+    printListTest(list,"Current list visualisation:");
+    printListTest(listMerge,"List to merge visualisation:");
+
+    merge(list,listMerge);
+
+    printListTest(list,"List after merge:");
+
+    // Split test
+
+    List *listSplit = split_at(list,5);
+    printListTest(list,"1 List after split:");
+    printListTest(listSplit,"2 List after split:");
+
+    // Empty test
+    printf("is the 1 List empty?: %d\n\n", empty(list));
+
+    // Freeing list
     free_list(list);
+    free_list(listSplit);
 }

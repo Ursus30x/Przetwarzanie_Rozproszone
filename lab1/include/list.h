@@ -89,9 +89,11 @@ Node* find_node(List* list, int data);
 
 /* MERGE AND SPLIT FUCTIONS */
 
-// Merges List src to List dest.
-// Frees src list.
-void merge(List* dest, List* src);
+// Merges List rhs to List lhs.
+// !!!Frees rhs list!!!.
+//
+// Returns a merged list pointer
+List* merge(List* lhs, List* rhs);
 
 // Splits list at given index and creates new list.
 // Creates a new list instance.

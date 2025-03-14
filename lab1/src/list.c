@@ -127,7 +127,7 @@ Node* insert_after(List *list, Node *targetNode, int data){
 }
 
 Node* insert_at(List* list, size_t index, int data){
-    Node* targetNode = get_node_at(list, index);
+    Node* targetNode = get_node_at(list, index-1);
 
     if(targetNode == NULL) return NULL;
 
@@ -207,6 +207,7 @@ size_t get_index_of(List *list, Node *node){
 
     while(iterNode != NULL){
         if(iterNode == node)return i;
+        iterNode = iterNode->nextNode;
         i++;
     }
 
@@ -218,19 +219,25 @@ Node* find_node(List *list,int data){
 
     while(iterNode != NULL){
         if(iterNode->data == data) return iterNode;
+        iterNode = iterNode->nextNode;
     }
 
     return NULL;
 }
 
-void merge(List *dest, List *src){
-    dest->size += src->size;
+List* merge(List *lhs, List *rhs){
+    if(rhs == NULL)return lhs;
 
-    dest->endNode->nextNode = src->frontNode;
-    src->frontNode->prevNode = dest->endNode;
-    dest->endNode = src->endNode;
 
-    free_list(src);
+    lhs->size += rhs->size;
+
+    lhs->endNode->nextNode = rhs->frontNode;
+    rhs->frontNode->prevNode = lhs->endNode;
+    lhs->endNode = rhs->endNode;
+
+    free(rhs);
+
+    return lhs;
 }
 
 List *split_at(List *list, size_t index){
@@ -255,6 +262,7 @@ List *split_at(List *list, size_t index){
     newList->frontNode->prevNode = NULL;
 
     newList->size = rightListSize;
+    list->size = list->size-rightListSize;
 
     return newList;
 }
