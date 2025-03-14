@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <stddef.h>
+#include <stdbool.h>
 
 // Node used for List
 typedef struct Node Node;
@@ -54,18 +55,38 @@ Node* insert_before(List *list, Node *node, int data);
 // Returns a inserted node or NULL if it couldnt allocate memory.
 Node* insert_after(List *list, Node *node, int data);
 
+// Inserts new node at given index counted from the start node.
+//
+// Returns a inserted node or NULL if it couldnt allocate memory.
+Node* insert_at(List *list, size_t index, int data);
+
 // Deletes given node
 void delete_node(List *list, Node *node);
 
-// Frees list nodes 
+// Deletes node at given index counted from the start node.
+void delete_at(List *list, size_t index);
+
+// Returns a node at given index
+Node* get_node_at(List *list, size_t index);
+
+// Returns a index of a given node
+size_t get_index_of(List *list, Node* node);
+
+// Returns true if size is equal to 0, otherwise returns false.
+bool empty(List *list);
+
+// Returns amount of nodes that list holds.
+size_t size(List *list);
+
+// Frees list nodes.
 //
-// To also free list use free_list()
+// To also free list use free_list().
 void free_list_nodes(List *list);
 
 // Frees list given as a argument,
-// frees both Nodes and List itself
+// frees both Nodes and List itself.
 //
-// To only free nodes use free_list_nodes()
+// To only free nodes use free_list_nodes().
 void free_list(List *list);
 
 
