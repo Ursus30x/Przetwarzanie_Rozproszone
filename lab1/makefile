@@ -1,5 +1,15 @@
-main: clean
-	gcc -Wall -Wpedantic -lm src/*.c -g -o listTest.o
+CC = gcc
+CFLAGS = -Wall -Wpedantic -g
+LDFLAGS = -lm
+SRC = $(wildcard src/*.c)
+TARGET = listTest.out
 
-clean: 
-	rm -f listTest.o
+.PHONY: all clean
+
+all: $(TARGET)
+
+$(TARGET): $(SRC)
+	$(CC) $(CFLAGS) $(SRC) $(LDFLAGS) -o $(TARGET)
+
+clean:
+	rm -f $(TARGET)
