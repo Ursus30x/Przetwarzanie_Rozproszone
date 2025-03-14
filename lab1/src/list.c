@@ -70,7 +70,6 @@ Node* push_front(List *list, int data){
 
     initNode(newNode, list->frontNode, NULL, data);
 
-
     // Check if we are inserting in to empty list
     if(list->size == 0){
         firstInsert(list,newNode);
@@ -113,7 +112,6 @@ Node* insert_after(List *list, Node *targetNode, int data){
     //Pointing intial previous target node to new node
     if(targetNode->nextNode == NULL) list->endNode = newNode;
     else targetNode->nextNode->prevNode = newNode;
-    
 
     //Initializing new node
     initNode(newNode, targetNode->nextNode, targetNode, data);
@@ -137,7 +135,6 @@ Node* insert_at(List* list, size_t index, int data){
 void pop_back(List *list){
     Node* poppedNode = list->endNode;
 
-
     if (list->size == 1) {
         list->endNode = list->frontNode = NULL;
     } else {
@@ -152,7 +149,6 @@ void pop_back(List *list){
 void pop_front(List *list){
     Node* poppedNode = list->frontNode;
 
-    
     if (list->size == 1) {
         list->frontNode = list->endNode = NULL;
     } else {
@@ -160,7 +156,6 @@ void pop_front(List *list){
         list->frontNode->prevNode = NULL;
     }
     list->size--;
-
 
     free(poppedNode);
 }
@@ -198,7 +193,6 @@ Node* get_node_at(List *list, size_t index){
     }
 
     return targetNode;
-
 }
 
 size_t get_index_of(List *list, Node *node){
@@ -228,7 +222,6 @@ Node* find_node(List *list,int data){
 List* merge(List *lhs, List *rhs){
     if(rhs == NULL)return lhs;
 
-
     lhs->size += rhs->size;
 
     lhs->endNode->nextNode = rhs->frontNode;
@@ -242,14 +235,8 @@ List* merge(List *lhs, List *rhs){
 
 List *split_at(List *list, size_t index){
     List *newList = create_list();
-    Node *iterNode = list->frontNode;
+    Node *iterNode = get_node_at(list,index);
     size_t rightListSize = list->size - index;
-    size_t i = 0;
-    
-    while(iterNode != NULL && i != index){
-        iterNode = iterNode->nextNode;
-        i++;
-    }
 
     if(iterNode == NULL)return newList;
 
@@ -270,8 +257,6 @@ List *split_at(List *list, size_t index){
 bool empty(List *list){
     return (list->size == 0);
 }
-
-
 
 void free_list_nodes(List *list){
     Node    *currentNode    = list->frontNode,
