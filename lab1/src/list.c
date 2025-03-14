@@ -3,6 +3,12 @@
 #include <stddef.h>
 #include <malloc.h>
 
+size_t smiec[1000][100][100] = {};
+
+void essa(){
+    smiec[1][1][1] = 1;
+}
+
 // Handles first insertion in to the list
 static void firstInsert(List *list,Node* node){
     list->endNode   = node;
