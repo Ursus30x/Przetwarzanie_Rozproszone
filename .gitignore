@@ -1,4 +1,6 @@
 *.o
 *.out
 *.zip
+*.a
+*.so
 .vscode

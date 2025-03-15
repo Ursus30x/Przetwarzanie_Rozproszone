@@ -8,12 +8,13 @@ TARGET = listTest.out
 LIBTARGET = lib_list.a
 DLIBFLAGS = -Wall -fPIC -D_GNU_SOURCE
 DLIBTARGET = lib_list.so
+TARGETS = $(TARGET) $(LIBTARGET) $(DLIBTARGET) $(OBJTARGET)
 
 .PHONY: all clean
 
-all: $(TARGET)
+all: $(TARGETS) 
 
-$(TARGET): $(SRC)
+$(TARGETS): $(SRC)
 	$(CC) $(CFLAGS) $(SRC) $(LDFLAGS) -o $(TARGET)
 	$(CC) $(CFLAGS) -c $(OBJSRC) -o $(OBJTARGET)
 
@@ -24,11 +25,13 @@ $(TARGET): $(SRC)
 	$(CC) $(OBJTARGET) -shared -o $(DLIBTARGET)
 
 	cp $(LIBTARGET) ../lab2/src/$(LIBTARGET)
-	cp $(DLIBTARGET) ../lab2/$(LIBTARGET)
+	cp $(DLIBTARGET) ../lab2/$(DLIBTARGET)
 
 clean:
 	rm -f $(TARGET)
 	rm -f $(OBJTARGET)
 	rm -f $(LIBTARGET)
 	rm -f $(DLIBTARGET)
+	rm -f ../lab2/$(DLIBTARGET)
+	rm -f ../lab2/src/$(LIBTARGET)
 	
