@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wpedantic -g
-LDFLAGS = 
+LDFLAGS = -lpthread
 SRC = $(wildcard src/*.c)
 LIBSTATIC = $(wildcard src/*.a)
 LIBSDYNAMIC= list
@@ -15,7 +15,7 @@ TARGETS = $(TARGETSTATIC)
 all: $(TARGETS)
 
 $(TARGETS): $(SRC)
-	$(CC) $(CFLAGS) $(SRC) $(LIBSTATIC) $(LDFLAGS) -o $(TARGETSTATIC)
+	$(CC) $(CFLAGS) $(SRC)  $(LDFLAGS) -o $(TARGETSTATIC)
 
 clean:
 	rm -f $(TARGETSTATIC)
