@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{69ec5b32-9002-427b-880d-5c103a707133}</ProjectGuid>
-    <RootNamespace>lab5</RootNamespace>
+    <ProjectGuid>{97cacf78-ce2d-4b3a-9449-becd8c02204c}</ProjectGuid>
+    <RootNamespace>lab5v2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -120,18 +120,19 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="buttons.c" />
-    <ClCompile Include="Main.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="server.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="buttons.h" />
+    <ClInclude Include="server.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
