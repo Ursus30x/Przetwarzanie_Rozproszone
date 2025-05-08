@@ -34,8 +34,8 @@ void init_points_info(pointsInfo *info){
 }
 
 
-double get_random_coord(unsigned int *seed){
-    return (double)(rand_r(seed) % (totalPoints + 1)) / totalPoints;
+float get_random_coord(unsigned int *seed){
+    return (float)(rand_r(seed) % (totalPoints + 1)) / totalPoints;
 }
 
 void *compute_pi_num(void* pointsInfo_ptr){
@@ -46,8 +46,8 @@ void *compute_pi_num(void* pointsInfo_ptr){
     size_t localPointsForThread = pointsForThread;
     unsigned int seed = getpid() + pthread_self() + time(NULL);
 
-    for(int i = 0;i<localPointsForThread;i++){
-        double  x = get_random_coord(&seed),
+    for(size_t i = 0;i<localPointsForThread;i++){
+        float   x = get_random_coord(&seed),
                 y = get_random_coord(&seed),
                 dist = x*x + y*y;
 
@@ -73,12 +73,12 @@ void execute_fork(pointsInfo *forkInfo){
     pointsInfo threadInfos[thread_num];
 
 
-    for(int i = 0;i<thread_num;i++){
+    for(size_t i = 0;i<thread_num;i++){
         init_points_info(&threadInfos[i]);
         pthread_create(&threads[i],NULL,compute_pi_num,&threadInfos[i]);
     }
     
-    for(int i = 0;i<thread_num;i++){
+    for(size_t i = 0;i<thread_num;i++){
         pthread_join(threads[i],NULL);
         forkInfo->circlePoints += threadInfos[i].circlePoints;
         forkInfo->squarePoints += threadInfos[i].squarePoints;
@@ -138,7 +138,7 @@ int main(int argc, char **argv){
     init_points_info(&info);
 
 
-    for(int i = 0;i<subproc_num;i++){
+    for(size_t i = 0;i<subproc_num;i++){
         pipe(pipes[i]);
         pid = fork();
         child_pipes[i] = pid;
@@ -158,7 +158,7 @@ int main(int argc, char **argv){
         }
     }
 
-    for(int i = 0;i<subproc_num;i++){
+    for(size_t i = 0;i<subproc_num;i++){
         pointsInfo temp;
         waitpid(child_pipes[i],NULL,0);
 
